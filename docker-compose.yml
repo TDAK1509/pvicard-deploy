@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13.2-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env.db
+    restart: always
+
+  app:
+    image: 344393402524.dkr.ecr.ap-southeast-1.amazonaws.com/pvicard-staging:v1
+    env_file:
+      - ./.env.app
+    volumes:
+      - static_data:/static
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  static_data:
+  postgres_data:
